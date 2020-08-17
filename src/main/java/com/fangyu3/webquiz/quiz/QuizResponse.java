@@ -1,4 +1,4 @@
-package com.fangyu3.webquiz.response;
+package com.fangyu3.webquiz.quiz;
 
 public class QuizResponse {
 	
