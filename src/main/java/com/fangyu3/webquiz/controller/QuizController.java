@@ -1,10 +1,10 @@
 package com.fangyu3.webquiz.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,64 +14,80 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fangyu3.webquiz.entity.Quiz;
 import com.fangyu3.webquiz.exception.QuizNotFoundException;
-import com.fangyu3.webquiz.quiz.QuizAnswer;
 import com.fangyu3.webquiz.quiz.QuizResponse;
+import com.fangyu3.webquiz.quiz.UserQuizAnswer;
+import com.fangyu3.webquiz.service.QuizService;
 
 @RestController
 @RequestMapping("/api")
 public class QuizController {
 	
-	private List<Quiz> quizzes;
-	private int quizNum;
-	
-	@PostConstruct
-	private void setup() {
-		quizzes = new ArrayList<Quiz>();
-		quizNum = 1;
-	}
+	@Autowired
+	private QuizService quizService;
 	
 	@GetMapping("/quizzes")
 	public List<Quiz> getQuiz() {
-		return quizzes;
+		return quizService.findAll();
 	}
 	
 	@GetMapping("/quizzes/{quizId}") 
 	public Quiz getQuizById(@PathVariable("quizId") int quizId) {
 		
-		if(quizId > this.quizzes.size() || quizId < 1)
-			throw new QuizNotFoundException("Quiz id: " + quizId + " not found!");
+		Quiz quiz = quizService.findById(quizId);
 		
-		 Quiz quiz = this.quizzes.get(quizId-1);
+		if(quiz == null)
+			throw new QuizNotFoundException("Quiz id: " + quizId + " not found!");
 		
 		return quiz;
 	}
  
 
 	@PostMapping("/quizzes")
-	public Quiz createQuiz(@RequestBody Quiz quiz) {
-		Quiz newQuiz = new Quiz(quizNum,quiz.getTitle(),quiz.getText(),quiz.getOptions(),quiz.getAnswer());
-		quizzes.add(newQuiz);
-		this.quizNum++;
-		System.out.println(newQuiz);
+	public Quiz createQuiz(@Valid @RequestBody Quiz quiz) {
+		
+		Quiz newQuiz = quizService.save(quiz);
+
 		return newQuiz;
 	}
 	
 	@PostMapping("/quizzes/{quizId}/solve")
-	public QuizResponse solveQuiz(@PathVariable("quizId") int quizId, @RequestBody QuizAnswer answer) {
+	public QuizResponse solveQuiz(@PathVariable("quizId") int quizId, @RequestBody UserQuizAnswer userResponse) {
 		
-		if(quizId > this.quizzes.size() || quizId < 1)
+		Quiz quiz = quizService.findById(quizId);
+		
+		if(quiz == null)
 			throw new QuizNotFoundException("Quiz id: " + quizId + " not found!");
 		
-		QuizResponse result;
 		
-		Quiz quiz = this.quizzes.get(quizId-1);
+		int[] userAnswer = userResponse.getAnswer();
+		int[] correctAnswer = quiz.getAnswer();
+		int numCorrect = 0;
+		
+		if(userAnswer == null || correctAnswer == null) {
 			
-		if (answer.getAnswer() != quiz.getAnswer()) 
-			result = new QuizResponse(false,"Wrong answer! Please, try again.");
-		else
-			result = new QuizResponse(true,"Congratulations, you're right!");
+			if ((userAnswer == null && correctAnswer == null) 
+					||(userAnswer == null && correctAnswer.length == 0) 
+					||(correctAnswer == null && userAnswer.length == 0))
+				return new QuizResponse(true,"Congratulations, you're right!");
+		}
+		else 
+		{
+			// Neither answer contains null 
+			for (int idx:userAnswer) 
+			{
+				for(int correctIdx:correctAnswer) 
+				{
+					if(idx == correctIdx) 
+						numCorrect++;
+				}
+			}
+				
+			if(numCorrect == correctAnswer.length && userAnswer.length == correctAnswer.length)
+				return new QuizResponse(true,"Congratulations, you're right!");
+
+		}
 		
-		return result;
+		return new QuizResponse(false,"Wrong answer! Please, try again.");
 	}
 
 }
