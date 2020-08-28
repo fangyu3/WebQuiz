@@ -1,13 +1,13 @@
 package com.fangyu3.webquiz.exception;
 
-public class QuizErrorResponse {
+public class ErrorResponse {
 	private String message;
 	private int status;
 	private long timestamp;
 	
-	public QuizErrorResponse() {}
+	public ErrorResponse() {}
 	
-	public QuizErrorResponse(String message, int status, long timestamp) {
+	public ErrorResponse(String message, int status, long timestamp) {
 		this.setMessage(message);
 		this.setStatus(status);
 		this.setTimestamp(timestamp);
