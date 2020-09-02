@@ -2,11 +2,14 @@ package com.fangyu3.webquiz.entity;
 
 import java.util.Arrays;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +40,10 @@ public class Quiz {
 	
 	@Column(name="answer")
 	private int[] answer;
+	
+	@ManyToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="user_id")
+	private User user;
 
 	public Quiz() {
 		// TODO Auto-generated constructor stub
@@ -90,6 +97,15 @@ public class Quiz {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	@JsonIgnore
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

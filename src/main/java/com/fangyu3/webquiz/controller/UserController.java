@@ -2,6 +2,8 @@ package com.fangyu3.webquiz.controller;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +26,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/register")
-	public User registerUser(@RequestBody User newUser) {
+	public User registerUser(@Valid @RequestBody User newUser) {
 		
 		Optional <User> user = userDetailsService.findByEmail(newUser.getEmail());
 		

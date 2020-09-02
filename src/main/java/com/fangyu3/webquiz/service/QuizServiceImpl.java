@@ -39,5 +39,13 @@ public class QuizServiceImpl implements QuizService{
 	public Quiz save(@Valid Quiz quiz) {
 		return quizRepository.save(quiz);
 	}
+
+	@Override
+	public void deleteById(int quizId) {
+		quizRepository.deleteById(quizId);
+		
+	}
+	
+	
 	
 }

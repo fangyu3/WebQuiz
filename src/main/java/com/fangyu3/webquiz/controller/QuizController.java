@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fangyu3.webquiz.entity.Quiz;
+import com.fangyu3.webquiz.entity.User;
 import com.fangyu3.webquiz.exception.QuizNotFoundException;
+import com.fangyu3.webquiz.exception.UserNotQuizAuthorException;
 import com.fangyu3.webquiz.quiz.QuizResponse;
 import com.fangyu3.webquiz.quiz.UserQuizAnswer;
 import com.fangyu3.webquiz.service.QuizService;
@@ -46,6 +51,7 @@ public class QuizController {
 	@PostMapping("/quizzes")
 	public Quiz createQuiz(@Valid @RequestBody Quiz quiz) {
 		
+		quiz.setUser((User)(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
 		Quiz newQuiz = quizService.save(quiz);
 
 		return newQuiz;
@@ -92,8 +98,22 @@ public class QuizController {
 	}
 	
 	@DeleteMapping("/quizzes/{quizId}")
-	public void deleteQuizById(@PathVariable("quizId") int quizId) {
+	public Object deleteQuizById(@PathVariable("quizId") int quizId) {
 		
+		Quiz quiz = quizService.findById(quizId);
+		
+		if(quiz == null)
+			throw new QuizNotFoundException("Quiz id: " + quizId + " not found!");
+		
+		User curUser = (User)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+		if (quiz.getUser().getEmail() != curUser.getEmail())
+			throw new UserNotQuizAuthorException("You are not the author of quiz. Cannot delete");
+		
+		quizService.deleteById(quizId);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
 	}
 
 }

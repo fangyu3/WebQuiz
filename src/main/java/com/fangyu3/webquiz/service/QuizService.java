@@ -13,5 +13,7 @@ public interface QuizService {
 	public Quiz findById(int quizId);
 
 	public Quiz save(@Valid Quiz quiz);
+	
+	public void deleteById(int quizId);
 
 }

@@ -41,5 +41,15 @@ public class AppExceptionHandler {
 		
 		return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorResponse> handleUserNotQuizAuthorException(UserNotQuizAuthorException e) {
+		ErrorResponse error = new ErrorResponse(e.getMessage(),
+														HttpStatus.FORBIDDEN.value(),
+														System.currentTimeMillis()
+														);
+		
+		return new ResponseEntity<>(error,HttpStatus.FORBIDDEN);
+	}
 
 }

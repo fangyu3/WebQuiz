@@ -90,3 +90,9 @@ Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:461)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 86 more
+2020-09-01 17:00:33 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * USER[*]"; SQL statement:
+SELECT * USER [42000-200]
+2020-09-01 18:16:39 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROMQUIZ[*]"; SQL statement:
+SELECT * FROMQUIZ [42000-200]
