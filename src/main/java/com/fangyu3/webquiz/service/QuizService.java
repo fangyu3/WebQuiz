@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+
 import com.fangyu3.webquiz.entity.Quiz;
 
 public interface QuizService {
 
-	public List<Quiz> findAll();
+	public Page<Quiz> findAll(Integer pageNo, Integer pageSize, String sortBy);
 
 	public Quiz findById(int quizId);
 
