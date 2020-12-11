@@ -2,40 +2,85 @@ Online Web Quiz REST Docs
 
 Documentation for web quiz api
 
-GET BEER
+GET QUIZ BY ID
 
 One showing how to make a request using cURL:
 
-{snippets}/v1/beer-get/curl-request.adoc
+include::{snippets}/api/quiz-get/curl-request.adoc[]
 
 One showing the HTTP request:
 
-{snippets}/v1/beer-get/http-request.adoc
+include::{snippets}/api/quiz-get/http-request.adoc[]
 
 And one showing the HTTP response:
 
-{snippets}/v1/beer-get/http-response.adoc
+include::{snippets}/api/quiz-get/http-response.adoc[]
 
-Response Body: {snippets}/v1/beer-get/response-body.adoc
+Response Body:
 
-Response Fields: {snippets}/v1/beer-get/response-fields.adoc
+include::{snippets}/api/quiz-get/response-body.adoc[]
 
-NEW BEER
+Response Fields:
+
+include::{snippets}/api/quiz-get/response-fields.adoc[]
+
+CREATE NEW QUIZ
 
 One showing how to make a request using cURL:
 
-{snippets}/v1/beer-new/curl-request.adoc
+include::{snippets}/api/quiz-create/curl-request.adoc[]
 
 One showing the HTTP request:
 
-{snippets}/v1/beer-new/http-request.adoc
+include::{snippets}/api/quiz-create/http-request.adoc[]
+
+Request Fields:
+include::{snippets}/api/quiz-create/request-fields.adoc[]
 
 And one showing the HTTP response:
 
-{snippets}/v1/beer-new/http-response.adoc
+include::{snippets}/api/quiz-create/http-response.adoc[]
 
-Response Body: {snippets}/v1/beer-new/response-body.adoc
+Response Body:
+include::{snippets}/api/quiz-create/response-body.adoc[]
 
-Request Fields {snippets}/v1/beer-new/request-fields.adoc
+SOLVE QUIZ
 
-Response Fields: include::{snippets}
+One showing how to make a request using cURL:
+
+include::{snippets}/api/quiz-solve/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/api/quiz-solve/http-request.adoc[]
+
+Request Fields:
+include::{snippets}/api/quiz-solve/request-fields.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/api/quiz-solve/http-response.adoc[]
+
+Response Body:
+include::{snippets}/api/quiz-solve/response-body.adoc[]
+
+GET ALL QUIZZES
+
+One showing how to make a request using cURL:
+
+include::{snippets}/api/quiz-get-all/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/api/quiz-get-all/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/api/quiz-get-all/http-response.adoc[]
+
+Response Body:
+include::{snippets}/api/quiz-get-all/response-body.adoc[]
+
+Response Fields:
+include::{snippets}/api/quiz-get-all/response-fields.adoc[]
+

@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/register","/h2-console/**","/actuator/shutdown").permitAll()
+                .antMatchers("/api/register","/h2-console/**","/actuator/shutdown","/docs/index.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
